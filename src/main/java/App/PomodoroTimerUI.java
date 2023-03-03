@@ -9,6 +9,14 @@ import java.awt.event.ActionListener;
 
 public class PomodoroTimerUI extends JFrame implements ActionListener {
 
+    private final JMenuBar menu_bar = new JMenuBar();
+    private final JMenu edit_menu = new JMenu("Edit");
+    private final JMenu reset = new JMenu("Reset");
+    private final JMenuItem reset_pomodoro = new JMenuItem("Reset Pomodoro");
+    private final JMenuItem about = new JMenuItem("About");
+    private final JMenuItem themes = new JMenuItem("Themes");
+    private final JMenuItem exit = new JMenuItem("Exit");
+    OsIdentifier osIdentifier = new OsIdentifier(System.getProperty("os.name").toLowerCase());
     private JPanel main_panel;
     private JTabbedPane main_tabbed_pane;
     private JPanel pomodoro_tab;
@@ -27,18 +35,19 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
     private JLabel long_timer_label;
     private JButton tab3_start_button;
     private JButton tab3_stop_button;
-
-    private final JMenuBar menu_bar = new JMenuBar();
-    private final JMenu edit_menu = new JMenu("Edit");
-    private final JMenu reset = new JMenu("Reset");
-    private final JMenuItem reset_pomodoro = new JMenuItem("Reset Pomodoro");
-    private final JMenuItem about = new JMenuItem("About");
-    private final JMenuItem themes = new JMenuItem("Themes");
-    private final JMenuItem exit = new JMenuItem("Exit");
-    OsIdentifier osIdentifier = new OsIdentifier(System.getProperty("os.name").toLowerCase());
+    private Timer timer;
+    private long startTime;
 
     public PomodoroTimerUI() {
         init();
+    }
+
+    public static void start() {
+
+    }
+
+    public static void stop() {
+
     }
 
     private void init() {
@@ -123,15 +132,14 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
         next_button.addActionListener(this);
     }
 
-    public static void start() {
-
-    }
-
-    public static void stop() {
-
-    }
-
     public void next() {
+        int index = main_tabbed_pane.getSelectedIndex();
+        if (index == 0)
+            main_tabbed_pane.setSelectedIndex(1);
+        else if (index == 1)
+            main_tabbed_pane.setSelectedIndex(2);
+        else if (index == 2)
+            main_tabbed_pane.setSelectedIndex(0);
 
     }
 
@@ -147,19 +155,43 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
 
         }
 
-        if (e.getSource() == start_button) {
-            System.out.println("Start");
-        }
+        if (e.getSource() == start_button)
+            startTimer();
 
-        int index = main_tabbed_pane.getSelectedIndex();
-        if (e.getSource() == next_button) {
-            if (index == 0)
-                main_tabbed_pane.setSelectedIndex(1);
-            else if (index == 1)
-                main_tabbed_pane.setSelectedIndex(2);
-            else if (index == 2)
-                main_tabbed_pane.setSelectedIndex(0);
-        }
+        if (e.getSource() == stop_button)
+            stopTimer();
 
+
+        if (e.getSource() == next_button)
+            next();
+    }
+
+    private void startTimer() {
+        startTime = System.currentTimeMillis();
+        timer.start();
+    }
+
+    private void stopTimer() {
+        timer.stop();
+    }
+
+    private class TimerListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            long currentTime = System.currentTimeMillis();
+            long elapsedTime = currentTime - startTime;
+            int POMODORO_TIME = 25;
+            long remainingTime = POMODORO_TIME - elapsedTime;
+
+            if (remainingTime <= 0) {
+                stopTimer();
+                // show a message or play a sound to indicate the end of the pomodoro
+            } else {
+                int minutes = (int) (remainingTime / 60000);
+                int seconds = (int) ((remainingTime / 1000) % 60);
+                int milliseconds = (int) (remainingTime % 1000);
+                timer_label.setText(String.format("%02d:%02d:%03d", minutes, seconds, milliseconds));
+            }
+        }
     }
 }

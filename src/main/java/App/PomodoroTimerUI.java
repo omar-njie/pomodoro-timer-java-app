@@ -151,6 +151,15 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
             System.out.println("Start");
         }
 
+        int index = main_tabbed_pane.getSelectedIndex();
+        if (e.getSource() == next_button) {
+            if (index == 0)
+                main_tabbed_pane.setSelectedIndex(1);
+            else if (index == 1)
+                main_tabbed_pane.setSelectedIndex(2);
+            else if (index == 2)
+                main_tabbed_pane.setSelectedIndex(0);
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 package App;
 
+import App.scratches.StopWatch;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanContrastIJTheme;
 
 import javax.swing.*;

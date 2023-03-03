@@ -1,4 +1,4 @@
-package App;
+package App.scratches;
 
 import java.awt.*;
 

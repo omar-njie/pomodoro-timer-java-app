@@ -2,7 +2,7 @@ package App;
 
 import App.utilities.themes.DefaultTheme;
 import App.utilities.OsIdentifier;
-import App.utilities.Settings;
+import App.utilities.settings.Settings;
 
 import javax.swing.*;
 

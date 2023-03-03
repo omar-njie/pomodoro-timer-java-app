@@ -1,4 +1,4 @@
-package App.utilities;
+package App.utilities.settings;
 
 import App.PomodoroTimerUI;
 import App.utilities.themes.Dark;

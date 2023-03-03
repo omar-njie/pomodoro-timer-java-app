@@ -1,5 +1,7 @@
 package App;
 
+import App.utilities.themes.OsIdentifier;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -32,7 +34,9 @@ public class PomodoroTimer extends JFrame implements
     private final JMenu reset = new JMenu("Reset");
     private final JMenuItem reset_pomodoro = new JMenuItem("Reset Pomodoro");
     private final JMenuItem about = new JMenuItem("About");
+    private final JMenuItem themes = new JMenuItem("Themes");
     private final JMenuItem exit = new JMenuItem("Exit");
+    OsIdentifier osIdentifier = new OsIdentifier(System.getProperty("os.name").toLowerCase());
 
     public PomodoroTimer() {
         run();
@@ -41,6 +45,10 @@ public class PomodoroTimer extends JFrame implements
     @Override
     public void run() {
         this.setTitle("Pomodoro Timer");
+
+        if (osIdentifier.is_mac())
+            this.getRootPane().putClientProperty("apple.awt.windowTitleVisible", false);
+
         this.setContentPane(main_panel);
         this.setSize(553, 380);
         this.setJMenuBar(menu_bar);
@@ -48,6 +56,19 @@ public class PomodoroTimer extends JFrame implements
         this.setVisible(true);
         this.setResizable(true);
         this.setLocationRelativeTo(null);
+
+
+        // Tooltips Texts
+        edit_menu.setToolTipText("<html><ul>" + "<li>" + "<h3>Drop Settings Menu ALT+F</h3>" + "</li>" + "<li>" + "<h3>Reload CTRL+R</h3>" + "</li>" + "<li>" + "<h3>Themes CTRL+T</h3>" + "</li>" + "<li>" + "<h3>Exit CTRL+E</h3>" + "</li>" + "</ul></html>");
+        about.setToolTipText("<html><h3>Reload settings</h3></html>");
+        themes.setToolTipText("<html><h3>Change themes</h3></html>");
+        exit.setToolTipText("<html><h3>Exit</h3></html>");
+
+        // shortcuts
+        edit_menu.setMnemonic('S');
+        about.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        themes.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        exit.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 
         Font font = new Font("JetBrainsMono Nerd Font", Font.BOLD, 18);
 
@@ -60,8 +81,9 @@ public class PomodoroTimer extends JFrame implements
         menu_bar.add(edit_menu);
         menu_bar.add(reset);
 
+        edit_menu.add(themes);
+        edit_menu.addSeparator();
         edit_menu.add(about);
-        // separator
         edit_menu.addSeparator();
         edit_menu.add(exit);
         reset.add(reset_pomodoro);

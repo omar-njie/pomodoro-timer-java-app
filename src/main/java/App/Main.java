@@ -1,6 +1,8 @@
 package App;
 
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanContrastIJTheme;
+import App.utilities.themes.DefaultTheme;
+import App.utilities.themes.OsIdentifier;
+import App.utilities.themes.Settings;
 
 import javax.swing.*;
 
@@ -13,15 +15,18 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-        dark_mode();
-        new Thread(PomodoroTimer::new).start();
+        String os = System.getProperty("os.name").toLowerCase();
+        OsIdentifier osIdentifier = new OsIdentifier(os);
+
+        SwingUtilities.invokeLater(() -> {
+            if (osIdentifier.is_mac()) {
+                System.setProperty("apple.awt.application.appearance", "system");
+                System.setProperty("apple.laf.useScreenMenuBar", "true");
+            }
+            // Apply the default theme
+            DefaultTheme.default_theme();
+            new Settings();
+        });
     }
 
-    public static void dark_mode() {
-        try {
-            UIManager.setLookAndFeel(new FlatMaterialDeepOceanContrastIJTheme());
-        } catch (Exception e) {
-            System.err.println("Couldn't set look and feel, using default");
-        }
-    }
 }

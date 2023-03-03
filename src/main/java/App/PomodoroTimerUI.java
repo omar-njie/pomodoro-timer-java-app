@@ -1,6 +1,6 @@
 package App;
 
-import App.utilities.themes.OsIdentifier;
+import App.utilities.OsIdentifier;
 
 import javax.swing.*;
 import java.awt.*;

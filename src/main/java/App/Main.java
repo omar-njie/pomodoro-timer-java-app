@@ -1,8 +1,8 @@
 package App;
 
 import App.utilities.themes.DefaultTheme;
-import App.utilities.themes.OsIdentifier;
-import App.utilities.themes.Settings;
+import App.utilities.OsIdentifier;
+import App.utilities.Settings;
 
 import javax.swing.*;
 

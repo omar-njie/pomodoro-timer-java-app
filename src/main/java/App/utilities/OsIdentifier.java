@@ -1,4 +1,4 @@
-package App.utilities.themes;
+package App.utilities;
 
 public record OsIdentifier(String os_name) {
 

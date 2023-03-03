@@ -7,8 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PomodoroTimer extends JFrame implements
-        Runnable, ActionListener {
+public class PomodoroTimerUI extends JFrame implements ActionListener {
 
     private JPanel main_panel;
     private JTabbedPane main_tabbed_pane;
@@ -38,12 +37,11 @@ public class PomodoroTimer extends JFrame implements
     private final JMenuItem exit = new JMenuItem("Exit");
     OsIdentifier osIdentifier = new OsIdentifier(System.getProperty("os.name").toLowerCase());
 
-    public PomodoroTimer() {
-        run();
+    public PomodoroTimerUI() {
+        init();
     }
 
-    @Override
-    public void run() {
+    private void init() {
         this.setTitle("Pomodoro Timer");
 
         if (osIdentifier.is_mac())
@@ -154,26 +152,5 @@ public class PomodoroTimer extends JFrame implements
         }
 
 
-     /*   if (e.getSource() == next_button) {
-            // open the tab each time the next button is clicked
-            NEXT:
-            if (main_tabbed_pane.getSelectedIndex() == 0) {
-                main_tabbed_pane.setSelectedIndex(1);
-            }
-
-            PREVIOUS:
-            for (int i = 0; i < main_tabbed_pane.getTabCount(); i++) {
-                main_tabbed_pane.setSelectedIndex(i);
-                if (main_tabbed_pane.getTitleAt(i).equals("Pomodoro")) {
-                    main_tabbed_pane.setSelectedIndex(i);
-                    break PREVIOUS;
-
-                }
-            }
-        }*/
-
-
     }
-
-
 }

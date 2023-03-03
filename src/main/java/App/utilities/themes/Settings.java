@@ -1,6 +1,6 @@
 package App.utilities.themes;
 
-import App.PomodoroTimer;
+import App.PomodoroTimerUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -116,7 +116,7 @@ public class Settings extends JFrame
     }
 
     private void ui_thread_starter() {
-        new Thread(PomodoroTimer::new).start();
+        new Thread(PomodoroTimerUI::new).start();
         this.update(this.getGraphics());
     }
 

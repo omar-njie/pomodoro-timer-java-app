@@ -1,4 +1,4 @@
-package App;
+package App.scratches;
 
 import App.scratches.StopWatch;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanContrastIJTheme;

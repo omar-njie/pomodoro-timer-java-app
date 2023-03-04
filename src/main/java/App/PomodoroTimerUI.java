@@ -1,11 +1,14 @@
 package App;
 
+import App.scratches.TabbedTimerGUI;
 import App.utilities.OsIdentifier;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class PomodoroTimerUI extends JFrame implements ActionListener {
 
@@ -36,7 +39,7 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
     private JButton tab3_start_button;
     private JButton tab3_stop_button;
     private Timer timer;
-    private long startTime;
+    private int count;
 
     public PomodoroTimerUI() {
         init();
@@ -99,7 +102,7 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
         main_tabbed_pane.addTab("Short Break", short_break_tab);
         main_tabbed_pane.addTab("Long Break", long_break_tab);
 
-        TAB1:
+        // TAB1:
         pomodoro_label.setText("Pomodoro");
         timer_label.setText("25:00");
         start_button.setText("Start");
@@ -109,7 +112,7 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
         next_button.putClientProperty("JButton.buttonType", "roundRect");
         next_button.setToolTipText("<html><h2>Next</h2></html>");
 
-        TAB2:
+        // TAB2:
         short_break_label.setText("Short Break");
         short_timer_label.setText("5:00");
         tab2_start_button.setText("Start");
@@ -117,7 +120,7 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
         tab2_start_button.putClientProperty("JButton.buttonType", "roundRect");
         tab2_stop_button.putClientProperty("JButton.buttonType", "roundRect");
 
-        TAB3:
+        // TAB3:
         long_break_label.setText("Long Break");
         long_timer_label.setText("15:00");
         tab3_start_button.setText("Start");
@@ -129,15 +132,45 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
         reset_pomodoro.addActionListener(this);
         start_button.addActionListener(this);
         stop_button.addActionListener(this);
+        tab2_start_button.addActionListener(this);
+        tab2_stop_button.addActionListener(this);
+        tab3_start_button.addActionListener(this);
+        tab3_stop_button.addActionListener(this);
         next_button.addActionListener(this);
+
+        // Create the timer that will update the label
+        timer = new Timer(1000, e -> {
+            count--;
+            int minutes = count / 60;
+            int seconds = count % 60;
+            if (main_tabbed_pane.getSelectedIndex() == 0) {
+                timer_label.setText(String.format("%02d:%02d", minutes, seconds));
+            } else if (main_tabbed_pane.getSelectedIndex() == 1) {
+                short_timer_label.setText(String.format("%02d:%02d", minutes, seconds));
+            } else if (main_tabbed_pane.getSelectedIndex() == 2) {
+                long_timer_label.setText(String.format("%02d:%02d", minutes, seconds));
+            }
+            if (count == 0) {
+                timer.stop();
+                // JOptionPane.showMessageDialog(PomodoroTimerUI.this, "Timer Finished!");
+                // play sound
+                try {
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/main/resources/sounds/alarm.wav").getAbsoluteFile());
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
     }
 
     public void next() {
         int index = main_tabbed_pane.getSelectedIndex();
         int count = main_tabbed_pane.getTabCount();
         main_tabbed_pane.setSelectedIndex((index + 1) % count);
-
-
     }
 
     @Override
@@ -147,16 +180,39 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == reset_pomodoro) {
-            System.out.println("Reset");
-            // countdown
+            // reset only the tab that is selected
+            if (main_tabbed_pane.getSelectedIndex() == 0)
+                timer_label.setText("25:00");
+            else if (main_tabbed_pane.getSelectedIndex() == 1)
+                short_timer_label.setText("5:00");
+            else if (main_tabbed_pane.getSelectedIndex() == 2)
+                long_timer_label.setText("15:00");
 
         }
 
-        if (e.getSource() == start_button)
-            System.out.println("Start");
+        if (e.getSource() == start_button) {
+            count = 25 * 60;
+            timer.start();
+        }
 
         if (e.getSource() == stop_button)
-            System.out.println("Stop");
+            timer.stop();
+
+        if (e.getSource() == tab2_start_button) {
+            count = 5 * 60;
+            timer.start();
+        }
+
+        if (e.getSource() == tab2_stop_button)
+            timer.stop();
+
+        if (e.getSource() == tab3_start_button) {
+            count = 15 * 60;
+            timer.start();
+        }
+
+        if (e.getSource() == tab3_stop_button)
+            timer.stop();
 
 
         if (e.getSource() == next_button) {

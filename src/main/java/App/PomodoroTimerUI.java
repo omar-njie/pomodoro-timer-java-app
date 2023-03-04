@@ -46,13 +46,6 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
         init();
     }
 
-    public static void start() {
-
-    }
-
-    public static void stop() {
-
-    }
 
     private void init() {
         this.setTitle("Pomodoro Timer");
@@ -186,9 +179,8 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == exit) {
+        if (e.getSource() == exit)
             System.exit(0);
-        }
 
         if (e.getSource() == reset_pomodoro) {
             // reset only the tab that is selected
@@ -210,7 +202,7 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
             timer.stop();
 
         if (e.getSource() == tab2_start_button) {
-            count = 1 * 60;
+            count = 5 * 60;
             timer.start();
         }
 
@@ -225,12 +217,7 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
         if (e.getSource() == tab3_stop_button)
             timer.stop();
 
-
-        if (e.getSource() == next_button) {
+        if (e.getSource() == next_button)
             next();
-            System.out.println("Next");
-        }
     }
-
-
 }

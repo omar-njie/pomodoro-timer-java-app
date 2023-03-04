@@ -8,8 +8,7 @@ import javax.swing.*;
 
 /**
  * @author Omar
- * This is the main class of the application.
- * It is responsible for initializing the GUI and starting the application.
+ * @version 1.0
  */
 
 public class Main {

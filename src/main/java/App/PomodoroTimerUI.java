@@ -1,6 +1,5 @@
 package App;
 
-import App.scratches.TabbedTimerGUI;
 import App.utilities.OsIdentifier;
 
 import javax.sound.sampled.*;
@@ -145,6 +144,7 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
             count--;
             int minutes = count / 60;
             int seconds = count % 60;
+
             if (main_tabbed_pane.getSelectedIndex() == 0) {
                 timer_label.setText(String.format("%02d:%02d", minutes, seconds));
             } else if (main_tabbed_pane.getSelectedIndex() == 1) {
@@ -152,28 +152,36 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
             } else if (main_tabbed_pane.getSelectedIndex() == 2) {
                 long_timer_label.setText(String.format("%02d:%02d", minutes, seconds));
             }
-            if (count == 0) {
-                timer.stop();
-                // JOptionPane.showMessageDialog(PomodoroTimerUI.this, "Timer Finished!");
-                // play sound
-                try {
-                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/main/resources/alarm.wav").getAbsoluteFile());
-                    Clip clip = AudioSystem.getClip();
-                    clip.open(audioInputStream);
-                    clip.start();
-                    System.out.println("Sound played successfully! | " + new Date().toString());
-                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
 
+            play_sound();
+        });
     }
 
+    /**
+     * Switch to the next tab
+     */
     public void next() {
         int index = main_tabbed_pane.getSelectedIndex();
         int count = main_tabbed_pane.getTabCount();
         main_tabbed_pane.setSelectedIndex((index + 1) % count);
+    }
+
+    public void play_sound() {
+        if (count == 0) {
+            timer.stop();
+            // JOptionPane.showMessageDialog(PomodoroTimerUI.this, "Timer Finished!");
+            // play sound
+            try {
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/main/resources/alarm.wav").getAbsoluteFile());
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                clip.start();
+                System.out.println("Sound played successfully! | " + new Date().toString());
+                System.out.println("Media duration: " + clip.getMicrosecondLength() / 1000000 + " seconds");
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override

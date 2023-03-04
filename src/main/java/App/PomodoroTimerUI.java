@@ -156,42 +156,12 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == start_button)
-            startTimer();
 
         if (e.getSource() == stop_button)
-            stopTimer();
 
 
         if (e.getSource() == next_button)
             next();
     }
 
-    private void startTimer() {
-        startTime = System.currentTimeMillis();
-        timer.start();
-    }
-
-    private void stopTimer() {
-        timer.stop();
-    }
-
-    private class TimerListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            long currentTime = System.currentTimeMillis();
-            long elapsedTime = currentTime - startTime;
-            int POMODORO_TIME = 25;
-            long remainingTime = POMODORO_TIME - elapsedTime;
-
-            if (remainingTime <= 0) {
-                stopTimer();
-                // show a message or play a sound to indicate the end of the pomodoro
-            } else {
-                int minutes = (int) (remainingTime / 60000);
-                int seconds = (int) ((remainingTime / 1000) % 60);
-                int milliseconds = (int) (remainingTime % 1000);
-                timer_label.setText(String.format("%02d:%02d:%03d", minutes, seconds, milliseconds));
-            }
-        }
-    }
 }

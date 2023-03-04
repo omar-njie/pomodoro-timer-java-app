@@ -8,7 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 public class PomodoroTimerUI extends JFrame implements ActionListener {
 
@@ -155,10 +157,11 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
                 // JOptionPane.showMessageDialog(PomodoroTimerUI.this, "Timer Finished!");
                 // play sound
                 try {
-                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/main/resources/sounds/alarm.wav").getAbsoluteFile());
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/main/resources/alarm.wav").getAbsoluteFile());
                     Clip clip = AudioSystem.getClip();
                     clip.open(audioInputStream);
                     clip.start();
+                    System.out.println("Sound played successfully! | " + new Date().toString());
                 } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
                     ex.printStackTrace();
                 }
@@ -199,7 +202,7 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
             timer.stop();
 
         if (e.getSource() == tab2_start_button) {
-            count = 5 * 60;
+            count = 1 * 60;
             timer.start();
         }
 

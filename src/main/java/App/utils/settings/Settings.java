@@ -1,10 +1,10 @@
-package App.utilities.settings;
+package App.utils.settings;
 
 import App.PomodoroTimerUI;
-import App.utilities.themes.Dark;
-import App.utilities.themes.DefaultTheme;
-import App.utilities.themes.Light;
-import App.utilities.themes.WindowsLaF;
+import App.utils.themes.Dark;
+import App.utils.themes.DefaultTheme;
+import App.utils.themes.Light;
+import App.utils.themes.WindowsLaF;
 
 import javax.swing.*;
 import java.awt.*;

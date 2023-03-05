@@ -1,8 +1,8 @@
 package App;
 
-import App.utilities.themes.DefaultTheme;
-import App.utilities.OsIdentifier;
-import App.utilities.settings.Settings;
+import App.utils.themes.DefaultTheme;
+import App.utils.OsIdentifier;
+import App.utils.settings.Settings;
 
 import javax.swing.*;
 
@@ -19,7 +19,7 @@ public class Main {
 
         SwingUtilities.invokeLater(() -> {
             if (osIdentifier.is_mac()) {
-                System.setProperty("apple.awt.application.appearance", "system");
+               // System.setProperty("apple.awt.application.appearance", "system");
                 System.setProperty("apple.laf.useScreenMenuBar", "true");
             }
             // Apply the default theme

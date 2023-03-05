@@ -1,7 +1,7 @@
 package App;
 
-import App.utilities.OsIdentifier;
-import App.utilities.settings.Settings;
+import App.utils.OsIdentifier;
+import App.utils.settings.Settings;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sound.sampled.*;

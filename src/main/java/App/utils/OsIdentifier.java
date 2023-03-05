@@ -1,4 +1,4 @@
-package App.utilities;
+package App.utils;
 
 public record OsIdentifier(String os_name) {
 

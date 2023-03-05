@@ -1,6 +1,6 @@
 package App.scratches;
 
-import App.utilities.OsIdentifier;
+import App.utils.OsIdentifier;
 
 import javax.sound.sampled.*;
 import javax.swing.*;

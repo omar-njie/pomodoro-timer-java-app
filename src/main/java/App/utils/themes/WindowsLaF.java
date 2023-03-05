@@ -1,4 +1,4 @@
-package App.utilities.themes;
+package App.utils.themes;
 
 import javax.swing.*;
 

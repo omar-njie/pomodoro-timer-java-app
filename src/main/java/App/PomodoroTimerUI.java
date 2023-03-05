@@ -1,6 +1,8 @@
 package App;
 
 import App.utilities.OsIdentifier;
+import App.utilities.settings.Settings;
+import org.jetbrains.annotations.NotNull;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -124,6 +126,8 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
 
         exit.addActionListener(this);
         reset_pomodoro.addActionListener(this);
+        themes.addActionListener(this);
+        about.addActionListener(this);
         start_button.addActionListener(this);
         stop_button.addActionListener(this);
         tab2_start_button.addActionListener(this);
@@ -183,9 +187,11 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(@NotNull ActionEvent e) {
         if (e.getSource() == exit)
             System.exit(0);
+
+        theme_menu_item(e);
 
         if (e.getSource() == reset_pomodoro) {
             // reset only the tab that is selected
@@ -195,7 +201,6 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
                 short_timer_label.setText("5:00");
             else if (main_tabbed_pane.getSelectedIndex() == 2)
                 long_timer_label.setText("15:00");
-
         }
 
         if (e.getSource() == start_button) {
@@ -224,5 +229,26 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
 
         if (e.getSource() == next_button)
             next();
+    }
+
+    private void theme_menu_item(ActionEvent e) {
+        if (e.getSource() == themes) {
+            UIManager.put("OptionPane.messageFont", new Font("JetBrainsMono Nerd Font Mono", Font.BOLD, 20));
+            UIManager.put("OptionPane.buttonFont", new Font("JetBrainsMono Nerd Font Mono", Font.BOLD, 20));
+            String msg = """
+                    Are you sure you want\040
+                    to change the theme?
+                    If you choose so this
+                    will restart the app.
+                    """.indent(1);
+            int option = JOptionPane.showConfirmDialog(null, msg, "Change Theme", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (option == JOptionPane.OK_OPTION) {
+                this.dispose();
+                new Settings();
+            } else if (option == JOptionPane.CANCEL_OPTION) {
+                UIManager.put("OptionPane.messageFont", new Font("JetBrainsMono Nerd Font Mono", Font.BOLD, 20));
+                JOptionPane.showMessageDialog(null, "You have cancelled the operation", "Cancelled", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 }

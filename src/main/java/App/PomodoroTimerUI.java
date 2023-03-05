@@ -174,6 +174,11 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
                 ex.printStackTrace();
             }
+
+            // after sound is played, set the labels to their default values
+            timer_label.setText("25:00");
+            short_timer_label.setText("5:00");
+            long_timer_label.setText("15:00");
         }
     }
 

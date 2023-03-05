@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-public class PomodoroTimerUI extends JFrame implements ActionListener {
+public class PomodoroTimerUI2 extends JFrame implements ActionListener {
 
     private static final Font MENU_FONT = new Font("FiraCode Nerd Font", Font.BOLD, 18);
     private static final Font BUTTON_FONT = new Font("JetBrainsMono Nerd Font", Font.BOLD, 18);
@@ -22,8 +22,6 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
     private final JMenuItem THEMES = new JMenuItem("Themes");
     private final JMenuItem EXIT = new JMenuItem("Exit");
     private final OsIdentifier OS_IDENTIFIER = new OsIdentifier(System.getProperty("os.name").toLowerCase());
-    private JPanel main_panel;
-    private JTabbedPane main_tabbed_pane;
     private JPanel pomodoro_tab;
     private JPanel short_break_tab;
     private JPanel long_break_tab;
@@ -43,7 +41,7 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
     private Timer timer;
     private int count;
 
-    public PomodoroTimerUI() {
+    public PomodoroTimerUI2() {
         init();
     }
 
@@ -53,57 +51,76 @@ public class PomodoroTimerUI extends JFrame implements ActionListener {
      * @param args Command-line arguments
      */
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new PomodoroTimerUI().setVisible(true));
+        SwingUtilities.invokeLater(() -> new PomodoroTimerUI2().setVisible(true));
     }
 
     private void init() {
         setTitle("Pomodoro Timer");
 
-        if (OS_IDENTIFIER.is_mac()) {
-            getRootPane().putClientProperty("apple.awt.windowTitleVisible", false);
-        }
+    // if (OS_IDENTIFIER.is_mac()) {
+    //     getRootPane().putClientProperty("apple.awt.windowTitleVisible", false);
+    // }
 
-        setContentPane(main_panel);
-        setSize(553, 380);
-        setJMenuBar(MENU_BAR);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-        setResizable(true);
-        setLocationRelativeTo(null);
+    setSize(553, 380);
+    setJMenuBar(MENU_BAR);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setVisible(true);
+    setResizable(true);
+    setLocationRelativeTo(null);
 
-        // Create menus
-        MENU_BAR.add(EDIT_MENU);
-        MENU_BAR.add(RESET_MENU);
-        EDIT_MENU.setFont(MENU_FONT);
-        RESET_MENU.setFont(MENU_FONT);
+    // Create main panel and tabbed pane
+    JPanel main_panel = new JPanel();
+    JTabbedPane main_tabbed_pane = new JTabbedPane();
+    main_panel.setLayout(new BorderLayout());
+    main_panel.add(main_tabbed_pane, BorderLayout.CENTER);
 
-        // Add menu items
-        THEMES.setFont(MENU_FONT);
-        ABOUT.setFont(BUTTON_FONT);
-        EXIT.setFont(BUTTON_FONT);
-        RESET_POMODORO.setFont(BUTTON_FONT);
-        RESET_MENU.add(RESET_POMODORO);
-        EDIT_MENU.addSeparator();
-        EDIT_MENU.add(THEMES);
-        EDIT_MENU.addSeparator();
-        EDIT_MENU.add(ABOUT);
-        EDIT_MENU.addSeparator();
-        EDIT_MENU.add(EXIT);
+    // Add tabs to the tabbed pane
+    pomodoro_tab = new JPanel();
+    short_break_tab = new JPanel();
+    long_break_tab = new JPanel();
+    main_tabbed_pane.addTab("Pomodoro", pomodoro_tab);
+    main_tabbed_pane.addTab("Short Break", short_break_tab);
+    main_tabbed_pane.addTab("Long Break", long_break_tab);
 
-        // Set fonts
-        pomodoro_label.setFont(BUTTON_FONT);
-        timer_label.setFont(BUTTON_FONT);
-        start_button.setFont(BUTTON_FONT);
-        next_button.setFont(BUTTON_FONT);
-        short_break_label.setFont(BUTTON_FONT);
-        tab2_start_button.setFont(BUTTON_FONT);
-        short_timer_label.setFont(BUTTON_FONT);
-        stop_button.setFont(BUTTON_FONT);
-        tab2_stop_button.setFont(BUTTON_FONT);
-        long_break_label.setFont(BUTTON_FONT);
-        long_timer_label.setFont(BUTTON_FONT);
-        tab3_start_button.setFont(BUTTON_FONT);
-        tab3_stop_button.setFont(BUTTON_FONT);
+    // Create menus
+    MENU_BAR.add(EDIT_MENU);
+    MENU_BAR.add(RESET_MENU);
+    EDIT_MENU.setFont(MENU_FONT);
+    RESET_MENU.setFont(MENU_FONT);
+
+    // Add menu items
+    THEMES.setFont(MENU_FONT);
+    ABOUT.setFont(BUTTON_FONT);
+    EXIT.setFont(BUTTON_FONT);
+    RESET_POMODORO.setFont(BUTTON_FONT);
+    RESET_MENU.add(RESET_POMODORO);
+    EDIT_MENU.addSeparator();
+    EDIT_MENU.add(THEMES);
+    EDIT_MENU.addSeparator();
+    EDIT_MENU.add(ABOUT);
+    EDIT_MENU.addSeparator();
+    EDIT_MENU.add(EXIT);
+
+    // Create JLabels for the pomodoro tab
+    pomodoro_label = new JLabel("Pomodoro");
+    timer_label = new JLabel("00:00");
+    start_button = new JButton("Start");
+    next_button = new JButton("Next");
+
+    // Add the JLabels and JButtons to the pomodoro_tab panel
+    pomodoro_tab.setLayout(new GridLayout(3, 1));
+    pomodoro_tab.add(pomodoro_label);
+    pomodoro_tab.add(timer_label);
+    pomodoro_tab.add(start_button);
+    pomodoro_tab.add(next_button);
+
+    // Set fonts
+    pomodoro_label.setFont(BUTTON_FONT);
+    timer_label.setFont(BUTTON_FONT);
+    start_button.setFont(BUTTON_FONT);
+    next_button.setFont(BUTTON_FONT);
+
+    add(main_panel);
 
         // Set action listeners
         start_button.addActionListener(this);
